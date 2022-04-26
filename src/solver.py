@@ -77,14 +77,14 @@ def preprocess_matrix(matrix, jobs):
     # We are done now we can use our matrix
     return matrix, redundant_locs
 
-def create_demands(num_locations, jobs, redundant_locs, location_index_to_job_id):
+def create_demands(num_locations, jobs):
     '''
     This unction creates the demand, but also nullifies the redundant location demands.
     '''
 
     demands = [0 for _ in range(num_locations)]
 
-    for i, job in enumerate(jobs):
+    for job in jobs:
         demands[job['location_index']] = job['delivery'][0]
 
     return demands
@@ -101,7 +101,7 @@ def solve_vrp(vehicles, jobs, matrix):
     num_locations = len(matrix)
 
     # Amount of carboys that will be delivered to this job
-    demands = create_demands(num_locations, jobs, redundant_locs, location_index_to_job_id)
+    demands = create_demands(num_locations, jobs)
 
     # The vehicle capacities
     capacities = [v['capacity'][0] for v in vehicles]
